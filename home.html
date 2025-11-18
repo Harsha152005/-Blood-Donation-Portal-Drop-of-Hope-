@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drop-Of-Hope</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: url('b5.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    header {
+      background-color: rgb(165, 46, 40);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    header h1 { margin: 0; }
+
+    .menu-toggle {
+      position: absolute;
+      left: 20px;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: rgb(176, 153, 153);
+      padding: 10px;
+    }
+
+    nav a {
+      color: black;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url('images/hero-blood.jpg') center/cover no-repeat;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+
+    .hero-content h1 { font-size: 3rem; }
+    .hero-content p { font-size: 1.2rem; margin-top: 10px; }
+
+    .cta-buttons { margin-top: 20px; }
+
+    .cta-buttons a {
+      text-decoration: none;
+      background: #202d38;
+      color: white;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .cta-buttons a:hover { background: #c0392b; }
+
+    .section {
+      background: rgba(255,255,255,0.9);
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .dashboard-sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 220px;
+      height: 100%;
+      background: rgb(176, 153, 153);
+      border-top-right-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+      overflow-y: auto;
+      transition: left 0.3s ease;
+      z-index: 10000;
+      padding: 30px 0;
+    }
+
+    .dashboard-sidebar.active { left: 0; }
+
+    .dashboard-sidebar h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #fff;
+      font-size: 1.5rem;
+    }
+
+    .dashboard-menu {
+      list-style: none;
+      padding: 0;
+    }
+
+    .dashboard-menu a {
+      display: block;
+      color: #333;
+      text-decoration: none;
+      padding: 15px 20px;
+      font-weight: bold;
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .dashboard-menu a:hover {
+      background: #fff;
+      border-top-left-radius: 30px;
+      border-bottom-left-radius: 30px;
+    }
+
+    /* CHAT */
+    .chat-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: #d32f2f;
+      border-radius: 50%;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      z-index: 9998;
+    }
+
+    .container {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 400px;
+      max-height: 90vh;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+      z-index: 9997;
+    }
+
+    .container .header {
+      background: linear-gradient(135deg, #d32f2f, #ff5252);
+      color: white;
+      padding: 16px;
+      text-align: center;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 18px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #fafafa;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 80%;
+    }
+
+    .message.user {
+      background: #d32f2f;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .message.bot {
+      background: #e0e0e0;
+      color: black;
+      align-self: flex-start;
+    }
+
+    .input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    .input-area button {
+      background: #d32f2f;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    @media(max-width: 600px) {
+      .container { width: 90%; right: 5%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+  <h1>Drop-Of-Hope</h1>
+</header>
+
+<nav>
+  <a href="home.html">Home</a>
+  <a href="#about">Criteria</a>
+  <a href="about.html">About Us</a>
+  <a href="contact.html">Contact</a>
+  <a href="#FAQ">FAQs</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Be a Hero. Save a Life.</h1>
+    <p>Your blood can give someone another chance at life.</p>
+    <div class="cta-buttons">
+      <a href="demo.html">Become a Donor</a>
+      <a href="findcamp.html">Find a Camp</a>
+    </div>
+  </div>
+</section>
+<section class="section">
+    <h2 style="color: #d32f2f;">Why Donate Blood?</h2>
+    <p>Every 2 seconds, someone needs blood. Your donation can save up to 3 lives.</p>
+  </section>
+  <section class="about" id="about"> 
+ <section class="section">
+  <h2 style="color: #d32f2f;">Eligibility Criteria</h2>
+  <ul style="list-style-type: disc; max-width: 600px; margin: 0 auto; text-align: left;">
+    <li>Age between 18 and 65 years.</li>
+    <li>Weight at least 50 kg (110 lbs).</li>
+    <li>Hemoglobin level at least 12.5 g/dL.</li>
+    <li>No major illness in the past 6 months.</li>
+    <li>Must not be pregnant or breastfeeding.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2 style="color: #d32f2f;">Donor Testimonials</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    <div style="max-width: 300px; background: #f8f8f8; padding: 20px; border-radius: 10px;">
+      <p>“Donating blood is the best decision I’ve made. Knowing it saved a life gives me immense joy.”</p>
+      <strong>– Anjali Mehta</strong>
+    </div>
+    <div style="max-width: 300px; background: #f8f8f8; padding: 20px; border-radius: 10px;">
+      <p>“My son survived due to timely blood donation. Thank you, heroes!”</p>
+      <strong>– Rajiv Sharma</strong>
+    </div>
+  </div>
+</section>
+
+<section class="FAQ" id="FAQ">  
+ <section class="section">
+  <h2 style="color: #d32f2f;">Frequently Asked Questions</h2>
+  <div style="max-width: 700px; margin: 0 auto; text-align: left;">
+    <p><strong>Q: How often can I donate blood?</strong><br>A: Every 3 months for men, every 4 months for women.</p>
+    <p><strong>Q: Is blood donation painful?</strong><br>A: Only a slight pinch when the needle is inserted, then it’s mostly painless.</p>
+    <p><strong>Q: Are there any risks?</strong><br>A: Very minimal. A sterile needle is used and discarded after one use.</p>
+  </div>
+</section>
+
+ <section class="section">
+  <h2 style="color: #d32f2f;">Stay Updated</h2>
+  <p>Subscribe to our newsletter to receive updates on donation camps, tips, and donor stories.</p>
+  <form onsubmit="subscribe(event)" style="max-width: 500px; margin: 0 auto;">
+    <input type="email" id="newsletterEmail" placeholder="Enter your email" required
+           style="padding: 10px; width: 70%; border-radius: 5px; border: 1px solid #ccc;">
+    <button type="submit"
+            style="padding: 10px 15px; border: none; background-color: #e74c3c; color: white; border-radius: 5px;">Subscribe</button>
+  </form>
+</section>
+
+<button onclick="scrollToTop()" title="Go to top" style="position: fixed; bottom: 30px; right: 30px; display: none; z-index: 99; background-color: #c0392b; color: white; border: none; padding: 10px 15px; border-radius: 50%;">↑</button>
+
+<script>
+  function subscribe(e) {
+    e.preventDefault();
+    const email = document.getElementById("newsletterEmail").value;
+    alert("Thank you for subscribing: " + email);
+    document.getElementById("newsletterEmail").value = "";
+  }
+</script>
+<footer style="background-color:rgb(165, 46, 40); color: white; padding: 40px 20px; text-align: center;">
+  <div style="margin-bottom: 20px;">
+    <h3 style="margin-bottom: 10px;">Join the Life-Saving Movement</h3>
+    <p style="font-size: 0.95rem;">Together, we can make a difference—one drop at a time.</p>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 30px;">
+    <div>
+      <h4>Quick Links</h4>
+      <a href="#" style="color:rgb(243, 246, 247); text-decoration: none; display: block; margin: 5px 0;">Home</a>
+      <a href="donate.html" style="color:rgb(252, 252, 252); text-decoration: none; display: block; margin: 5px 0;">Donate</a>
+      <a href="about.html" style="color:rgb(252, 254, 255); text-decoration: none; display: block; margin: 5px 0;">About</a>
+      <a href="contact.html" style="color:rgb(255, 255, 255); text-decoration: none; display: block; margin: 5px 0;">Contact</a>
+    </div>
+
+    <div>
+      <h4>Connect With Us</h4>
+      <a href="#" style="color: #ecf0f1; text-decoration: none; margin: 0 10px; font-size: 1.2rem;">🐦 Twitter</a><br>
+      <a href="#" style="color: #ecf0f1; text-decoration: none; margin: 0 10px; font-size: 1.2rem;">📘 Facebook</a><br>
+      <a href="#" style="color: #ecf0f1; text-decoration: none; margin: 0 10px; font-size: 1.2rem;">📷 Instagram</a>
+    </div>
+    <!-- Custom Logout Modal -->
+<div id="logoutModal" style="display: none;">
+  <div class="logout-modal-content">
+    <h3>Confirm Logout</h3>
+    <p>Are you sure you want to logout?</p>
+    <button id="confirmLogoutBtn">Yes, Logout</button>
+    <button id="cancelLogoutBtn">Cancel</button>
+  </div>
+</div>
+
+    <div>
+      <h4>Contact</h4>
+      <p>Email: support@lifesaver.org</p>
+      <p>Phone: +91-9876543210</p>
+      <p>Location: Mumbai, India</p>
+    </div>
+  </div>
+
+  <hr style="margin: 30px auto; width: 80%; border-color: #7f8c8d;">
+  <p>&copy; 2025 LifeSaver Blood Donation | Designed with ❤️ to Save Lives</p>
+</footer>
+
+<!-- Sidebar Dashboard -->
+<div class="dashboard-sidebar" id="dashboardSidebar">
+  <h2>Dashboard</h2>
+  <ul class="dashboard-menu">
+    <li><a href="example.html">Profile</a></li>
+    <li><a href="index.html">Blood Process</a></li>
+    <li><a href="learn.html">Additional Knowledge</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+    <li><a href="set.html">Settings</a></li>
+    <li><a href="#" onclick="confirmLogout(event)">Logout</a></li>
+  </ul>
+</div>
+
+<!-- Chat toggle -->
+<div class="chat-toggle" onclick="toggleChat()">💬</div>
+
+<!-- Chatbox -->
+<div class="container" id="chatBox">
+  <div class="header">
+    🩸 Blood Donation Assistant
+    <button class="close-btn" onclick="toggleChat()">❌</button>
+  </div>
+  <div class="messages" id="messages">
+    <div class="message bot">👋 Hello! How can I help you today?</div>
+  </div>
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Ask me anything...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  const sidebar = document.getElementById('dashboardSidebar');
+  const chatBox = document.getElementById('chatBox');
+  const messagesDiv = document.getElementById('messages');
+
+  function toggleSidebar() {
+    sidebar.classList.toggle('active');
+  }
+
+  function toggleChat() {
+    chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  const botResponses = {
+   "hi": "Hi there! Are you looking to donate blood or need information?",
+    "hello": "Hello! How can I help you today?",
+    "how to donate": "You can donate blood at your local blood bank or donation drive. Stay hydrated and well-rested before donating.",
+    "eligibility": "You need to be at least 18 years old, weigh over 50kg, and be in good health.",
+    "benefits": "Donating blood saves lives and improves your heart health by balancing iron levels.",
+    "types of donation": "Whole blood, Platelet, Plasma, and Double red cell donations are the common types.",
+    "requirements": "Bring a valid ID, eat a healthy meal, and drink water before your appointment.",
+    "frequency": "You can donate whole blood every 56 days, platelets every 7 days, and plasma every 28 days.",
+    "after donation": "Avoid heavy lifting, drink plenty of fluids, and rest. You'll feel great!",
+    "risks": "Minimal risks. You may feel dizzy or light-headed, but this is rare and temporary.",
+    "can i donate with tattoo": "Yes, if your tattoo was done in a licensed facility and it's older than 3 months.",
+    "can i donate with piercing": "Yes, similar to tattoos, wait 3 months if it was not done in a sterile environment.",
+    "o positive": "O+ is the most common blood type and in high demand for emergency use.",
+    "o negative": "O- is the universal donor. It’s vital in trauma cases. Very precious!",
+    "a positive": "A+ is also common and helpful in surgeries and regular transfusions.",
+    "ab negative": "AB- is the rarest blood type, making it extremely valuable for patients who need it.",
+    "thank you": "You're welcome! Let me know if you have more questions. 😊",
+    "where to donate": "Check local hospitals, Red Cross centers, or search 'blood donation near me' online.",
+    "can diabetics donate": "If your diabetes is well-managed and you’re healthy, you may be eligible. Ask your doctor!",
+    "can i donate with low blood pressure": "If your BP is stable and meets the minimum criteria, you might be allowed. Consult your physician.",
+    "is it painful": "Just a quick pinch! Most people say it’s less painful than a flu shot.",
+    "how long does it take": "The whole process takes about 45–60 minutes, with the donation itself taking around 10 minutes.",
+    "how much blood is taken": "Typically, about 1 pint (470 ml) of blood is drawn during a donation.",
+    "how often can we donate the blood": "Every 56 days (8 weeks) for whole blood.",
+    "why should i donate": "Every donation can save up to 3 lives. That’s a heroic act! 💪",
+    "bye": "Goodbye! Stay healthy and keep saving lives! 🩸",
+  };
+
+  function sendMessage() {
+    const input = document.getElementById("userInput");
+    const userText = input.value.trim();
+    if (!userText) return;
+
+    appendMessage(userText, "user");
+    input.value = "";
+
+    const lowerText = userText.toLowerCase();
+    const matchedKey = Object.keys(botResponses).find(key => lowerText.includes(key));
+    const botText = matchedKey ? botResponses[matchedKey] : "Sorry, I didn't understand. Try asking about eligibility, benefits, or donation process.";
+
+    setTimeout(() => appendMessage(botText, "bot"), 600);
+  }
+
+  function appendMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = `message ${type}`;
+    div.innerText = text;
+    messagesDiv.appendChild(div);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  function confirmLogout(event) {
+    event.preventDefault();
+    if (confirm("Are you sure you want to logout?")) {
+      window.location.href = 'login.html';
+    }
+  }
+
+  document.addEventListener("click", function(event) {
+    if (sidebar.classList.contains("active")) {
+      const isClickInsideSidebar = sidebar.contains(event.target);
+      const isClickOnToggle = event.target.closest('.menu-toggle');
+      if (!isClickInsideSidebar && !isClickOnToggle) {
+        sidebar.classList.remove("active");
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

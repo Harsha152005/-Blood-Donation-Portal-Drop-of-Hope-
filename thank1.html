@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thank You</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #806d6d, #fffcfc);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      background: #fff;
+      padding: 30px;
+      margin: 50px auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #4caf50;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Thank You for Registering!</h2>
+    <p><strong>Name:</strong> <span id="disp-name"></span></p>
+    <p><strong>Email:</strong> <span id="disp-email"></span></p>
+    <p><strong>Phone:</strong> <span id="disp-phone"></span></p>
+    <p><strong>Blood Group:</strong> <span id="disp-blood"></span></p>
+    <p><strong>Selected Camp:</strong> <span id="disp-camp"></span></p>
+  <!-- Back to Home Button -->
+    <div style="margin-top: 30px;">
+      <a href="home.html" style="
+        background-color: #c0392b;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight:bold;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+      ">Back to Home</a>
+    </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("formData"));
+
+    if (data) {
+      document.getElementById("disp-name").textContent = data.name;
+      document.getElementById("disp-email").textContent = data.email;
+      document.getElementById("disp-phone").textContent = data.phone;
+      document.getElementById("disp-blood").textContent = data.blood;
+      document.getElementById("disp-camp").textContent = data.camp;
+    } else {
+      document.querySelector(".container").innerHTML = "<h2>No data found. Please register again.</h2>";
+    }
+  </script>
+
+</body>
+</html>

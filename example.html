@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donor Profile - Drop-Of-Hope</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f3f3f3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .profile-card {
+      position: relative;
+      background: white;
+      width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s ease;
+      padding-bottom: 30px; /* extra space for back button */
+    }
+
+    .profile-header {
+      background: linear-gradient(135deg, #a30909ff, #f06666ff);
+      height: 150px;
+      position: relative;
+    }
+
+    .profile-header .connect, .profile-header .message {
+      position: absolute;
+      top: 20px;7
+      color: white;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .profile-header .connect { left: 20px; }
+    .profile-header .message { right: 20px; }
+
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid white;
+      object-fit: cover;
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .profile-body {
+      padding: 80px 30px 30px;
+    }
+
+    .profile-body h2 { margin-bottom: 5px; }
+
+    .profile-body p {
+      color: #777;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .profile-body .bio {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 30px;
+    }
+
+    .stats div {
+      text-align: center;
+    }
+
+    .stats div span {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #d32f2f;
+    }
+
+    .show-more {
+      background: linear-gradient(135deg, #d32f2f, #ff5252);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-bottom: 20px;
+    }
+
+    .show-more:hover { opacity: 0.9; }
+
+    .extra-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+      text-align: left;
+      padding: 0 30px;
+    }
+
+    .extra-content.open {
+      max-height: 300px; /* adjust if needed */
+      padding-top: 20px;
+    }
+
+    .extra-content h3 {
+      margin-bottom: 10px;
+      color: #d32f2f;
+      font-size: 1rem;
+    }
+
+    .extra-content p {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .back-arrow {
+      display: inline-block;
+      text-decoration: none;
+
+      color:#7f0000;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .back-arrow:hover {
+    
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <a href="#" class="connect">🩸 Donate</a>
+      <a href="#" class="message">💬 Message</a>
+    </div>
+    <img src="girl.jpeg" alt="Donor Photo" class="profile-pic" />
+    <div class="profile-body">
+      <h2>Tara Rao</h2>
+      <p>Mumbai, India</p>
+      <p class="bio">
+        Active Blood Donor · O+ Blood Group <br/>
+        Last Donation: June 5, 2025 <br/>
+        Saves lives by donating regularly.
+      </p>
+      <div class="stats">
+        <div>
+          <span>8</span>
+          Donations
+        </div>
+        <div>
+          <span>3</span>
+          Upcoming
+        </div>
+        <div>
+          <span>5</span>
+          Saved Lives
+        </div>
+      </div>
+      <div class="extra-content" id="extraContent">
+        <h3>Contact Information</h3>
+        <p>Email: jagruti@example.com</p>
+        <p>Phone: +91 9876543210</p>
+
+        <h3>Next Appointment</h3>
+        <p>Date: August 15, 2025</p>
+        <p>Location: Mumbai Blood Center</p>
+
+        <h3>Donation History</h3>
+        <p>- June 5, 2025 — O+ Whole Blood</p>
+        <p>- March 12, 2025 — O+ Platelets</p>
+        <p>- Jan 20, 2025 — O+ Whole Blood</p>
+      </div>
+      <button class="show-more" id="toggleBtn">Show more</button>
+
+      <!-- Back arrow button at bottom -->
+      <br/>
+      <a href="home.html" class="back-arrow">&#8592; Back to Home</a>
+    </div>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById('toggleBtn');
+    const extraContent = document.getElementById('extraContent');
+
+    toggleBtn.addEventListener('click', () => {
+      extraContent.classList.toggle('open');
+      toggleBtn.textContent = extraContent.classList.contains('open') ? 'Show less' : 'Show more';
+    });
+  </script>
+
+</body>
+</html>

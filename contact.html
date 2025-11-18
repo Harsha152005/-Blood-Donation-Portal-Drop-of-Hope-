@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contact Us</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to right, #806d6d, #fffcfc);
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      position: relative;
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 500px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      left: -50px;
+      top: 120px;
+      width: 100px;
+      height: 30px;
+      background: #fff;
+      border-radius: 50px;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      right: -50px;
+      top: 120px;
+      width: 100px;
+      height: 30px;
+      background: #fff;
+      border-radius: 50px;
+    }
+
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 18px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .plane {
+      position: absolute;
+      left: 30px;
+      top: 120px;
+      width: 100px;
+    }
+
+    .bubbles {
+      position: absolute;
+      left: 50px;
+      top: 70px;
+      z-index: 0;
+    }
+
+    .bubbles span {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.05);
+    }
+
+    .bubbles span:nth-child(1) {
+      width: 60px; height: 60px; left: 20px; top: -20px;
+    }
+
+    .bubbles span:nth-child(2) {
+      width: 30px; height: 30px; left: 80px; top: 40px;
+    }
+
+    h2 {
+      margin-left: 150px;
+      margin-top: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    form {
+      margin-left: 150px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .input-group input,
+    .input-group textarea {
+      width: 90%;
+      border: none;
+      background: #f3f3f3;
+      border-radius: 25px;
+      padding: 12px 15px 12px 40px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .input-group textarea {
+      resize: none;
+      height: 70px;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      border: none;
+      background: #ff7e5f;
+      color: #fff;
+      padding: 12px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #feb47b;
+    }
+
+    .social {
+      margin-top: 20px;
+      margin-left: 150px;
+    }
+
+    .social a {
+      margin: 0 5px;
+      display: inline-block;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .social img {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="back-arrow"><i class="fas fa-arrow-left"></i></div>
+
+    <div class="bubbles">
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Use an online plane icon -->
+    <img class="plane" src="plane2.png" alt="Paper Plane">
+
+    <h2>Contact us</h2>
+    <form id="contactForm" onsubmit="submitContact(event)">
+          <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="name" name="name" placeholder="Full name" required>
+      </div>
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="email" name="email" placeholder="Email address" required>
+      </div>
+      <div class="input-group">
+        <textarea id="message"  name="msg" placeholder="Message..." required></textarea>
+      </div> 
+      <button type="submit">Submit →</button>
+    </form>
+
+    <div class="social">
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145812.png" alt="Twitter"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145805.png" alt="Instagram"></a>
+    </div>
+  </div>
+
+  <script>
+    function submitContact(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (name && email && message) {
+        const params = new URLSearchParams({
+          name: name,
+          email: email,
+          message: message
+        });
+        window.location.href = "contactthank.html?" + params.toString();
+      } else {
+        alert("Please fill out all fields.");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background: #fff;
+}
+
+header {
+  background: url('blood.jpg') center/cover no-repeat;
+  height: 100vh;
+  color: white;
+  position: relative;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.hero {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  width: 100%;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.buttons a {
+  text-decoration: none;
+  background: #e74c3c;
+  color: white;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.buttons a:hover {
+  background: #c0392b;
+}
+
+section {
+  padding: 60px 20px;
+  text-align: center;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+
+.counters {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.testimonials, .upcoming-camps, .join-us {
+  background-color: #f9f9f9;
+}
+
+.testimonial-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.testimonial {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 300px;
+}
+
+.join-us .cta-button {
+  background: #e74c3c;
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 6px;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}

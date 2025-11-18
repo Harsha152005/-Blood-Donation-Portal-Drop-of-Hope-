@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blood Donation Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #e74c3c;
+      --dark: #2c3e50;
+      --light: #ecf0f1;
+      --white: #fff;
+      --gray: #bdc3c7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background-color: var(--primary);
+      width: 250px;
+      padding: 30px 20px;
+      position: fixed;
+      height: 100%;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      color: var(--white);
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      color: var(--white);
+      text-decoration: none;
+      padding: 12px 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar a i {
+      margin-right: 10px;
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 30px;
+      flex: 1;
+      transition: margin-left 0.3s ease;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .toggle-btn {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--white);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .card p {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .card i {
+      font-size: 28px;
+      float: right;
+      color: var(--gray);
+    }
+
+    .progress-container {
+      background: var(--gray);
+      height: 10px;
+      border-radius: 50px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: var(--primary);
+      width: 70%;
+    }
+
+    .chart-placeholder {
+      background: var(--white);
+      margin-top: 30px;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      color: var(--gray);
+      font-style: italic;
+    }
+
+    .dots-menu {
+      font-size: 22px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .menu-dropdown {
+      position: absolute;
+      top: 35px;
+      right: 0;
+      background-color: var(--primary);
+      color: var(--white);
+      border-radius: 10px;
+      padding: 10px 0;
+      display: none;
+      flex-direction: column;
+      width: 180px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      z-index: 999;
+    }
+
+    .menu-dropdown a {
+      padding: 10px 20px;
+      color: var(--white);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .menu-dropdown a:hover {
+      background-color: #c0392b;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .toggle-btn {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>Blood Bank</h2>
+    <a href="#"><i class="bi bi-house-door-fill"></i> Dashboard</a>
+    <a href="#"><i class="bi bi-droplet-half"></i> Donors</a>
+    <a href="#"><i class="bi bi-journal-text"></i> Requests</a>
+    <a href="#"><i class="bi bi-calendar-event"></i> Camps</a>
+    <a href="#"><i class="bi bi-gear"></i> Settings</a>
+    <a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a>
+  </div>
+
+  <!-- Main content -->
+  <div class="main">
+    <div class="topbar">
+      <span class="toggle-btn" onclick="toggleSidebar()"><i class="bi bi-list"></i></span>
+      <div class="profile">
+        <img src="https://i.pravatar.cc/150?img=3" alt="Profile">
+        <span>Admin</span>
+        <div class="dots-menu" onclick="toggleMenu()">
+          <i class="bi bi-three-dots-vertical"></i>
+          <div class="menu-dropdown" id="menuDropdown">
+            <a href="#">Dashboard</a>
+            <a href="#">Donors</a>
+            <a href="#">Requests</a>
+            <a href="#">Settings</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <i class="bi bi-people-fill"></i>
+        <h3>Total Donors</h3>
+        <p>1,520</p>
+        <div class="progress-container"><div class="progress-bar" style="width:80%"></div></div>
+      </div>
+      <div class="card">
+        <i class="bi bi-envelope-open-fill"></i>
+        <h3>Pending Requests</h3>
+        <p>76</p>
+        <div class="progress-container"><div class="progress-bar" style="width:45%"></div></div>
+      </div>
+      <div class="card">
+        <i class="bi bi-geo-alt-fill"></i>
+        <h3>Upcoming Camps</h3>
+        <p>4</p>
+        <div class="progress-container"><div class="progress-bar" style="width:25%"></div></div>
+      </div>
+      <div class="card">
+        <i class="bi bi-check-circle-fill"></i>
+        <h3>Approved Donations</h3>
+        <p>1,103</p>
+        <div class="progress-container"><div class="progress-bar" style="width:90%"></div></div>
+      </div>
+    </div>
+
+    <div class="chart-placeholder">
+      📊 <br>
+      Chart/Analytics Section Coming Soon...
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("active");
+    }
+
+    function toggleMenu() {
+      const dropdown = document.getElementById("menuDropdown");
+      dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+    }
+
+    // Close dropdown if clicked outside
+    window.onclick = function(event) {
+      const dropdown = document.getElementById("menuDropdown");
+      if (!event.target.closest('.dots-menu')) {
+        dropdown.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

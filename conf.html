@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Donation Confirmation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #806d6d, #fffcfc);
+      padding: 30px;
+      color: #333;
+      text-align: center;
+    }
+
+    .confirmation-box {
+      background: #fff;
+      max-width: 600px;
+      margin: auto;
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #27ae60;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    span {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="confirmation-box">
+    <h2>Thank You for Registering as a Donor!</h2>
+    <p><span>Name:</span> <span id="donorName"></span></p>
+    <p><span>Email:</span> <span id="donorEmail"></span></p>
+    <p><span>Blood Group:</span> <span id="donorBlood"></span></p>
+    <p><span>Preferred Donation Date:</span> <span id="donorDate"></span></p>
+    <p>We appreciate your life-saving contribution. ❤️</p>
+    <!-- Back to Home Button -->
+    <div style="margin-top: 30px;">
+      <a href="home.html" style="
+        background-color: #c0392b;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight:bold;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+      ">Back to Home</a>
+  </div>
+
+  <script>
+    const donor = JSON.parse(localStorage.getItem('donorInfo'));
+
+    if (donor) {
+      document.getElementById('donorName').textContent = donor.name;
+      document.getElementById('donorEmail').textContent = donor.email;
+      document.getElementById('donorBlood').textContent = donor.bloodGroup;
+      document.getElementById('donorDate').textContent = donor.date;
+    } else {
+      document.querySelector('.confirmation-box').innerHTML = "<h2>No donor data found.</h2>";
+    }
+
+    // Optionally clear the storage
+    localStorage.removeItem('donorInfo');
+  </script>
+
+</body>
+</html>

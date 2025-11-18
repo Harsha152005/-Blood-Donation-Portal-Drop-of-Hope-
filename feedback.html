@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blood Donation Feedback Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Ubuntu', sans-serif;
+      background: linear-gradient(to right, #806d6d, #fffcfc);
+      color: #2e2e2e;
+      padding: 40px 20px;
+    }
+
+    .feedback-container {
+      background-color: #fff;
+      max-width: 600px;
+      margin: auto;
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 1s ease-in-out;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      0% { transform: translateY(-20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    h1 {
+      text-align: center;
+      color: #b71c1c;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #444;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #e53935;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .submit-btn {
+      background-color: #e53935;
+      color: #fff;
+      padding: 14px 22px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      background-color: #b71c1c;
+    }
+
+    .thank-you {
+      display: none;
+      text-align: center;
+      color: green;
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 10px;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .star {
+      color: #ccc;
+      transition: color 0.2s;
+    }
+
+    .star.hovered,
+    .star.selected {
+      color: #f39c12;
+    }
+
+    .back-arrow {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+  
+      color: #7f0000;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .back-arrow:hover {
+    
+    }
+
+    @media (max-width: 600px) {
+      .feedback-container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .stars {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="feedback-container">
+    <h1>Blood Donation Feedback</h1>
+    <form id="feedbackForm" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" name="name" required placeholder="Your full name" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="experience">How was your donation experience?</label>
+        <select id="experience" name="experience" required>
+          <option value="" disabled selected>Select an option</option>
+          <option value="Excellent">Excellent</option>
+          <option value="Good">Good</option>
+          <option value="Average">Average</option>
+          <option value="Poor">Poor</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="staff">Rate our staff professionalism</label>
+        <select id="staff" name="staff" required>
+          <option value="" disabled selected>Select a rating</option>
+          <option>5 - Outstanding</option>
+          <option>4 - Very Good</option>
+          <option>3 - Good</option>
+          <option>2 - Fair</option>
+          <option>1 - Needs Improvement</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Overall Experience (Rate with Stars)</label>
+        <div class="stars" id="starRating">
+          <span class="star" data-value="1">&#9733;</span>
+          <span class="star" data-value="2">&#9733;</span>
+          <span class="star" data-value="3">&#9733;</span>
+          <span class="star" data-value="4">&#9733;</span>
+          <span class="star" data-value="5">&#9733;</span>
+        </div>
+        <input type="hidden" id="starValue" name="starValue" required>
+      </div>
+
+      <div class="form-group">
+        <label for="suggestions">Any comments or suggestions?</label>
+        <textarea id="suggestions" name="suggestions" placeholder="We value your input..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Feedback</button>
+      <div class="thank-you" id="thankYouMsg">Thank you for your valuable feedback! ❤️</div>
+    </form>
+
+    <!-- Back arrow at the bottom of the container -->
+    <a href="home.html" class="back-arrow">&#8592; Back to Home</a>
+  </div>
+
+  <script>
+    const stars = document.querySelectorAll('.star');
+    const starValueInput = document.getElementById('starValue');
+
+    stars.forEach((star, index) => {
+      star.addEventListener('mouseover', () => highlightStars(index));
+      star.addEventListener('mouseout', resetStars);
+      star.addEventListener('click', () => selectStar(index));
+    });
+
+    function highlightStars(index) {
+      stars.forEach((s, i) => {
+        s.classList.toggle('hovered', i <= index);
+      });
+    }
+
+    function resetStars() {
+      stars.forEach(s => s.classList.remove('hovered'));
+    }
+
+    function selectStar(index) {
+      stars.forEach((s, i) => {
+        s.classList.toggle('selected', i <= index);
+      });
+      starValueInput.value = index + 1;
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      if (!starValueInput.value) {
+        alert("Please select a star rating for overall experience.");
+        return;
+      }
+
+      document.getElementById('feedbackForm').reset();
+      stars.forEach(s => s.classList.remove('selected'));
+      document.getElementById('thankYouMsg').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
